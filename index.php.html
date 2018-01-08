@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Page</title>
+<meta name="generator" content="WYSIWYG Web Builder 12 - http://www.wysiwygwebbuilder.com">
+<link href="font-awesome.min.css" rel="stylesheet">
+<link href="LEBRON.css" rel="stylesheet">
+<link href="index.css" rel="stylesheet">
+<script src="jquery-1.12.4.min.js"></script>
+<script src="affix.min.js"></script>
+<script src="scrollspy.min.js"></script>
+<script src="./searchindex.js"></script>
+<script>
+var features = 'toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes,status=no,left=,top=,width=,height=';
+var searchDatabase = new SearchDatabase();
+var searchResults_length = 0;
+var searchResults = new Object();
+function searchPage(features)
+{
+   var element = document.getElementById('SiteSearch1');
+   if (element.value.length != 0 || element.value != " ")
+   {
+      var value = unescape(element.value);
+      var keywords = value.split(" ");
+      searchResults_length = 0;
+      for (var i=0; i<database_length; i++)
+      {
+         var matches = 0;
+         var words = searchDatabase[i].title + " " + searchDatabase[i].description + " " + searchDatabase[i].keywords;
+         for (var j = 0; j < keywords.length; j++)
+         {
+            var pattern = new RegExp(keywords[j], "i");
+            var result = words.search(pattern);
+            if (result >= 0)
+            {
+               matches++;
+            }
+            else
+            {
+               matches = 0;
+            }
+         }
+         if (matches == keywords.length)
+         {
+            searchResults[searchResults_length++] = searchDatabase[i];
+         }
+      }
+      var wndResults = window.open('about:blank', '', features);
+      setTimeout(function()
+      {
+         var results = '';
+         var html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Search results<\/title><'+'style>.highlight { color: #000000; background-color: #F5F5F5}<\/style><\/head>';
+         html = html + '<body style="background-color:#FFFFFF;margin:0;padding:2px 2px 2px 2px;">';
+         html = html + '<span style="font-family:Arial;font-size:13px;color:#000000">';
+         for (var n=0; n<searchResults_length; n++)
+         {
+            var page_keywords = searchResults[n].keywords;
+            for (var k = 0; k < keywords.length; k++)
+            {
+               keywords[k] = keywords[k].replace('*', '');
+               var rgxp = new RegExp(keywords[k], 'g');
+               var repl = '<span class="highlight">' + keywords[k] + '</span>';
+               page_keywords = page_keywords.replace(rgxp, repl);
+            }
+            results = results + '<strong><a style="color:#0000FF" target="_parent" href="'+searchResults[n].url+'">'+searchResults[n].title +'<\/a><\/strong><br>Keywords: ' + page_keywords +'<br><br>\n';
+         }
+         if (searchResults_length == 0)
+         {
+            results = 'No results';
+         }
+         else
+         {
+            html = html + searchResults_length;
+            html = html + ' result(s) found for search term: ';
+            html = html + value;
+            html = html + '<br><br>';
+         }
+         html = html + results;
+         html = html + '<\/span>';
+         html = html + '<\/body><\/html>';
+         wndResults.document.write(html);
+     },100);
+   }
+   return false;
+}
+function searchParseURL()
+{
+   var url = decodeURIComponent(window.location.href);
+   if (url.indexOf('?') > 0)
+   {
+      var terms = '';
+      var params = url.split('?');
+      var values = params[1].split('&');
+      for (var i=0;i<values.length;i++)
+      {
+         var param = values[i].split('=');
+         if (param[0] == 'q')
+         {
+            terms = unescape(param[1]);
+            break;
+         }
+      }
+      if (terms != '')
+      {
+         var element = document.getElementById('SiteSearch1');
+         element.value = terms;
+         searchPage('');
+      }
+   }
+}
+</script>
+<script>
+$(document).ready(function()
+{
+   searchParseURL();
+   $("#NavigationBar2").affix({offset:{top: $("#NavigationBar2").offset().top}});
+});
+</script>
+</head>
+<body data-spy="scroll">
+<form name="SiteSearch1_form" id="SiteSearch1_form" accept-charset="UTF-8" onsubmit="return searchPage(features)">
+<input type="text" id="SiteSearch1" style="position:absolute;left:929px;top:42px;width:277px;height:29px;line-height:29px;z-index:10;" name="SiteSearch1" value="" spellcheck="false"></form>
+<input type="button" id="Button1" onclick="searchPage();return false;" name="Search" value="Search" style="position:absolute;left:1216px;top:42px;width:96px;height:38px;z-index:11;">
+<div id="NavigationBar1" style="position:absolute;left:30px;top:204px;width:140px;height:189px;z-index:12;">
+<ul class="navbar">
+<li><a href="#"><img alt="" src="images/img0001_over.png" class="hover"><span><img alt="" src="images/img0001.png"></span></a></li>
+<li><a href=""><img alt="" src="images/img0002_over.png" class="hover"><span><img alt="" src="images/img0002.png"></span></a></li>
+<li><a href=""><img alt="" src="images/img0003_over.png" class="hover"><span><img alt="" src="images/img0003.png"></span></a></li>
+<li><a href=""><img alt="" src="images/img0004_over.png" class="hover"><span><img alt="" src="images/img0004.png"></span></a></li>
+<li><a href=""><img alt="" src="images/img0009_over.png" class="hover"><span><img alt="" src="images/img0009.png"></span></a></li>
+<li><a href=""><img alt="" src="images/img0010_over.png" class="hover"><span><img alt="" src="images/img0010.png"></span></a></li>
+<li><a href=""><img alt="" src="images/img0012_over.png" class="hover"><span><img alt="" src="images/img0012.png"></span></a></li>
+</ul>
+</div>
+<div id="ShareThis" style="position:fixed;text-align:left;left:auto;right:25px;top:auto;bottom:25px;width:313px;height:216px;z-index:13;">
+<div id="wb_ShareThisTitle" style="position:absolute;left:0px;top:0px;width:210px;height:49px;visibility:hidden;z-index:0;">
+<h1 id="ShareThisTitle">Share This</h1></div>
+<div id="wb_ShareThisGoogle" style="position:absolute;left:0px;top:169px;width:149px;height:46px;z-index:1;">
+<a href="https://plus.google.com/share?urlhttp%3A%2F%2Fwww.wysiwygwebbuilder.com&t=WYSIWYG%20Web%20Builder" target="_blank"><img src="images/img0005.png" id="ShareThisGoogle" alt="" style="width:149px;height:46px;"></a></div>
+<div id="wb_ShareThisTwitter" style="position:absolute;left:163px;top:107px;width:149px;height:46px;z-index:2;">
+<a href="http://twitter.com/share?text=WYSIWYG%20Web%20Builder&url=http%3A%2F%2Fwww.wysiwygwebbuilder.com" target="_blank"><img src="images/img0006.png" id="ShareThisTwitter" alt="" style="width:149px;height:46px;"></a></div>
+<div id="wb_ShareThisPinterest" style="position:absolute;left:163px;top:169px;width:149px;height:46px;z-index:3;">
+<a href="http://www.wysiwygwebbuilder.com/" target="_blank"><img src="images/img0007.png" id="ShareThisPinterest" alt="" style="width:149px;height:46px;"></a></div>
+<div id="wb_ShareThisFaceBook" style="position:absolute;left:0px;top:107px;width:149px;height:46px;z-index:4;">
+<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.wysiwygwebbuilder.com" target="_blank"><img src="images/img0008.png" id="ShareThisFaceBook" alt="" style="width:149px;height:46px;"></a></div>
+<div id="wb_LogoFaceBook" style="position:absolute;left:0px;top:108px;width:27px;height:24px;text-align:center;z-index:5;">
+<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.wysiwygwebbuilder.com" target="_blank"><div id="LogoFaceBook"><i class="fa fa-facebook">&nbsp;</i></div></a></div>
+<div id="wb_LogoGoogle" style="position:absolute;left:0px;top:170px;width:27px;height:24px;text-align:center;z-index:6;">
+<a href="https://plus.google.com/share?urlhttp%3A%2F%2Fwww.wysiwygwebbuilder.com&t=WYSIWYG%20Web%20Builder" target="_blank"><div id="LogoGoogle"><i class="fa fa-google">&nbsp;</i></div></a></div>
+<div id="wb_LogoTwitter" style="position:absolute;left:163px;top:108px;width:27px;height:24px;text-align:center;z-index:7;">
+<a href="http://twitter.com/share?text=WYSIWYG%20Web%20Builder&url=http%3A%2F%2Fwww.wysiwygwebbuilder.com" target="_blank"><div id="LogoTwitter"><i class="fa fa-twitter">&nbsp;</i></div></a></div>
+<div id="wb_LogoPinterest" style="position:absolute;left:163px;top:170px;width:27px;height:24px;text-align:center;z-index:8;">
+<a href="http://www.wysiwygwebbuilder.com/" target="_blank"><div id="LogoPinterest"><i class="fa fa-pinterest">&nbsp;</i></div></a></div>
+<div id="wb_ShareThisDescription" style="position:absolute;left:2px;top:69px;width:250px;height:18px;z-index:9;">
+<span style="color:#B6B6B6;font-family:Arial;font-size:15px;"><strong>Share this page with your friends!</strong></span></div>
+</div>
+<div id="wb_Text1" style="position:absolute;left:4px;top:124px;width:250px;height:16px;z-index:14;">
+<span style="color:#7FFFD4;font-family:Arial;font-size:48px;"><strong> </strong></span></div>
+<div id="NavigationBar2" style="position:absolute;left:4px;top:156px;width:214px;height:29px;z-index:15;">
+<ul class="navbar">
+<li><a href=""><img alt="" src="images/img0011_over.png" class="hover"><span><img alt="" src="images/img0011.png"></span></a></li>
+</ul>
+</div>
+</body>
+</html>
